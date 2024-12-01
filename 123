@@ -1,0 +1,166 @@
+#1
+import json
+
+class Animals:
+    def __init__(self, name, age, color):
+        self.name = name
+        self.age = age
+        self.color = color
+
+
+
+class Cat(Animals):
+    def voice(self):
+        print(f"{self.name} says: 'meow'")
+
+
+class Eagle(Animals):
+    def voice(self):
+        print(f"{self.name} says: 'arhh'")
+
+
+class Dog(Animals):
+    def voice(self):
+        print(f"{self.name} says: 'woof'")
+
+
+
+animals = [Cat("Bob", 13, "black"),Eagle("Alex", 2, "brown"),Dog("Rex", 3, "gray")]
+
+
+
+def create_animal_from_data(data):
+    animal_key = data["key"]
+    name = data["name"]
+    age = data["age"]
+    color = data["color"]
+
+    if animal_key == "cat":
+        return Cat(name, age, color)
+    elif animal_key == "eagle":
+        return Eagle(name, age, color)
+    elif animal_key == "dog":
+        return Dog(name, age, color)
+
+
+file_path = "animals.json"
+with open(file_path, "r", encoding="utf-8") as file:
+    data = json.load(file)
+    for item in data:
+        animal = create_animal_from_data(item)
+        animals.append(animal)
+
+
+for animal in animals:
+    animal.voice()
+
+
+print()
+
+
+
+
+#2
+import math
+import tkinter as tk
+from tkinter import messagebox
+
+class Table:
+    def __init__(self, height, shape):  # исправлено имя параметра
+        self.height = height
+        self.shape = shape.lower()
+
+class RoundTable(Table):
+    def __init__(self, height, diameter):
+        Table.__init__(height, 'round')  # вызываем конструктор базового класса
+        self.diameter = diameter
+
+    def area(self):
+        radius = self.diameter / 2
+        return math.pi * (radius ** 2)
+
+class RectangularTable(Table):
+    def __init__(self, height, width, depth):
+        super().__init__(height, 'rectangular')  # вызываем конструктор базового класса
+        self.width = width
+        self.depth = depth
+
+    def area(self):
+        return self.width * self.depth
+
+def calculate_area():
+    try:
+        height = float(height_entry.get())
+        shape = shape_var.get()
+
+        if shape == 'round':
+            diameter = float(width_entry.get())
+            table = RoundTable(height, diameter)
+            area = table.area()
+        elif shape == 'rectangular':
+            width = float(width_entry.get())
+            depth = float(depth_entry.get())
+            table = RectangularTable(height, width, depth)
+            area = table.area()
+        else:
+            raise ValueError("Unknown shape!")
+
+        result_var.set(f"Площадь столешницы: {area:.2f} кв. см")
+    except ValueError as e:
+        messagebox.showerror("Ошибка ввода", str(e))
+    except Exception as e:
+        messagebox.showerror("Ошибка", str(e))
+
+root = tk.Tk()
+root.title("Калькулятор площади столешницы")
+
+
+tk.Label(root, text="Высота:").grid(row=0, column=0)
+height_entry = tk.Entry(root)
+height_entry.grid(row=0, column=1)
+
+tk.Label(root, text="Ширина (или диаметр):").grid(row=1, column=0)
+width_entry = tk.Entry(root)
+width_entry.grid(row=1, column=1)
+
+tk.Label(root, text="Глубина (только для прямоугольного):").grid(row=2, column=0)
+depth_entry = tk.Entry(root)
+depth_entry.grid(row=2, column=1)
+
+shape_var = tk.StringVar(value='round')
+tk.Radiobutton(root, text="Круглый стол", variable=shape_var, value='round').grid(row=3, column=0)
+tk.Radiobutton(root, text="Прямоугольный стол", variable=shape_var, value='rectangular').grid(row=3, column=1)
+
+calculate_button = tk.Button(root, text="Рассчитать площадь", command=calculate_area)
+calculate_button.grid(row=4, columnspan=2)
+
+result_var = tk.StringVar()
+result_label = tk.Label(root, textvariable=result_var)
+result_label.grid(row=5, columnspan=2)
+
+root.mainloop()
+
+#3
+
+class Person:
+    def __init__(self, name, age, experience):
+        self.name = name
+        self.age = age
+        self.experience = experience
+
+class Bob(Person):
+    def speech(self):
+        print(f"Hi, my name is {self.name}, I'm {self.age} years old, I've been working for {self.experience} years.")
+
+class Alex(Person):
+    def speech(self):
+        print(f"Hi, my name is {self.name}, I'm {self.age} years old, I've been working for {self.experience} years.")
+
+class Piter(Person):
+    def speech(self):
+        print(f"Hi, my name is {self.name}, I'm {self.age} years old, I've been working for {self.experience} years.")
+
+people = [Bob("Bob", 52, 7), Alex("Alex", 45, 3), Piter("Piter", 22, 1)]
+
+for person in people:
+    person.speech()
